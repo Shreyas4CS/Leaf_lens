@@ -722,6 +722,144 @@ details.clues li b{display:block;font-weight:600}
 @media (max-width:680px){.mk-grid,.ratio-why{grid-template-columns:1fr}.ratios{grid-template-columns:repeat(2,minmax(0,1fr))}.learn{flex-direction:column}.ls-arrow{transform:rotate(90deg)}}
 .empty svg{width:34px;height:34px;color:#B5BED8;margin:0 auto 6px;display:block}
 
+
+/* v4: one-question-at-a-time flows (Stage 1 and Stage 3) + extra motion */
+.flow{position:relative}
+.fl-rail{display:flex;align-items:center;gap:0;margin:0 auto 22px;max-width:860px;padding:0 4px}
+.fl-node{display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0;position:relative;z-index:1;background:none}
+.fl-node .d{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-display);font-weight:700;font-size:18px;background:#fff;border:3px solid var(--line);color:var(--muted);transition:transform .35s cubic-bezier(.3,1.6,.5,1),background .3s,border-color .3s,color .3s}
+.fl-node .d svg{width:20px;height:20px}
+.fl-node small{font-size:11.5px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.fl-node.ok .d{background:var(--c);border-color:var(--c);color:#fff}
+.fl-node.on .d{border-color:var(--c);color:var(--c);transform:scale(1.18);box-shadow:0 0 0 6px color-mix(in srgb,var(--c) 22%,transparent);animation:ringPulse 1.8s ease-in-out infinite}
+.fl-node.on.ok .d{color:#fff}
+.fl-node.on small{color:var(--ink)}
+.fl-node:disabled{opacity:.55}
+.fl-node:not(:disabled):hover .d{transform:scale(1.1)}
+@keyframes ringPulse{0%,100%{box-shadow:0 0 0 5px color-mix(in srgb,var(--c) 22%,transparent)}50%{box-shadow:0 0 0 11px color-mix(in srgb,var(--c) 8%,transparent)}}
+.fl-line{flex:1;height:5px;border-radius:5px;background:var(--line);margin:0 6px 22px;position:relative;overflow:hidden;min-width:14px}
+.fl-line i{position:absolute;inset:0;width:0;background:linear-gradient(90deg,var(--lag),var(--cH));border-radius:5px;transition:width .6s cubic-bezier(.3,1,.5,1)}
+.fl-line.ok i{width:100%}
+
+.qbig{position:relative;max-width:860px;margin:0 auto;border-radius:30px;padding:34px 36px 28px;background:#fff;border:3px solid var(--c);box-shadow:0 30px 60px -34px color-mix(in srgb,var(--c) 70%,#1A2340),0 1px 0 rgba(26,35,64,.04);overflow:hidden;isolation:isolate}
+.qbig.in-r{animation:qIn .55s cubic-bezier(.2,1.1,.3,1) both}
+.qbig.in-l{animation:qInL .55s cubic-bezier(.2,1.1,.3,1) both}
+@keyframes qIn{from{opacity:0;transform:translateX(70px) rotate(1.5deg) scale(.96)}to{opacity:1;transform:none}}
+@keyframes qInL{from{opacity:0;transform:translateX(-70px) rotate(-1.5deg) scale(.96)}to{opacity:1;transform:none}}
+.qbig .deco{position:absolute;inset:0;z-index:-1;pointer-events:none}
+.qbig .deco span{position:absolute;border-radius:50%;background:var(--c);opacity:.1;animation:floaty 6s ease-in-out infinite}
+.qbig .deco span:nth-child(1){width:220px;height:220px;right:-70px;top:-80px}
+.qbig .deco span:nth-child(2){width:90px;height:90px;right:120px;top:26px;opacity:.07;animation-delay:-2s}
+.qbig .deco span:nth-child(3){width:140px;height:140px;left:-60px;bottom:-70px;opacity:.07;animation-delay:-4s}
+.qbig-top{display:flex;align-items:flex-start;gap:18px;margin-bottom:20px}
+.qbig-letter{width:74px;height:74px;border-radius:22px;display:grid;place-items:center;font-family:var(--f-display);font-weight:700;font-size:38px;color:#fff;background:var(--c);flex-shrink:0;box-shadow:0 10px 22px -10px var(--c);animation:letterIn .7s cubic-bezier(.3,1.7,.5,1) .1s both}
+.qbig-letter svg{width:36px;height:36px}
+@keyframes letterIn{from{transform:scale(0) rotate(-25deg)}to{transform:none}}
+.qbig-kick{font-family:var(--f-display);font-weight:600;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--cd,var(--muted))}
+.qbig h2{font-size:clamp(26px,3.2vw,38px);margin-top:4px;line-height:1.12}
+.qbig-top p{color:var(--muted);font-size:16px;margin-top:6px}
+.qbig textarea{width:100%;border:3px solid var(--line);border-radius:20px;padding:16px 18px;font-size:19px;line-height:1.45;resize:vertical;min-height:110px;color:var(--ink);background:#FBFCFF;transition:border-color .2s,box-shadow .2s;font-family:var(--f-body)}
+.qbig textarea:focus{outline:none;border-color:var(--c);box-shadow:0 0 0 6px color-mix(in srgb,var(--c) 15%,transparent)}
+.qbig-hint{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;color:var(--muted);margin:16px 0 10px}
+.qbig-hint svg{width:16px;height:16px;color:var(--sun-d)}
+.qbig .chips{display:flex;flex-wrap:wrap;gap:8px}
+.qbig .chip{font-size:14px;padding:9px 15px;border:2px solid var(--line);background:#fff;animation:chipIn .45s cubic-bezier(.3,1.5,.5,1) both}
+.qbig .chip:nth-child(1){animation-delay:.25s}.qbig .chip:nth-child(2){animation-delay:.35s}.qbig .chip:nth-child(3){animation-delay:.45s}
+.qbig .chip:hover{border-color:var(--c);background:var(--c);color:#fff;transform:translateY(-2px)}
+@keyframes chipIn{from{opacity:0;transform:translateY(12px) scale(.9)}to{opacity:1;transform:none}}
+.qbig-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:26px;flex-wrap:wrap}
+.qbig-nav .count{font-size:13px;font-weight:600;color:var(--muted)}
+.qbig-nav .count.ok{color:var(--cH-d)}
+.qbig-nav .btn.go:not(:disabled){animation:nudge 1.6s ease-in-out infinite}
+@keyframes nudge{0%,70%,100%{transform:none}80%{transform:translateX(5px)}90%{transform:translateX(-2px)}}
+.btn .back{transform:rotate(180deg)}
+.btn svg{width:18px;height:18px}
+.btn:disabled{opacity:.5;box-shadow:none}
+
+.ps-reveal{font-family:var(--f-display);font-weight:500;font-size:clamp(20px,2.4vw,26px);line-height:1.75;padding:26px;border-radius:24px;background:linear-gradient(140deg,#E7FAF8,#FFF7DD);border:3px dashed #9FE3DD}
+.ps-reveal .seg{opacity:0;display:inline;animation:segIn .6s ease both}
+.ps-reveal mark{background:#fff;padding:2px 10px;border-radius:10px;color:var(--ink);box-decoration-break:clone;-webkit-box-decoration-break:clone;box-shadow:inset 0 -4px 0 var(--mc,var(--lag-soft))}
+@keyframes segIn{from{opacity:0;filter:blur(6px)}to{opacity:1;filter:none}}
+.ps-recap{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:18px}
+.ps-recap button{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:16px;border:2px solid var(--line);background:#fff;text-align:left;min-width:0;transition:.2s;animation:chipIn .45s cubic-bezier(.3,1.5,.5,1) both}
+.ps-recap button:hover{border-color:var(--c);transform:translateY(-2px)}
+.ps-recap b{width:30px;height:30px;border-radius:10px;background:var(--c);color:#fff;display:grid;place-items:center;font-family:var(--f-display);flex-shrink:0}
+.ps-recap span{font-size:12.5px;font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ps-recap small{display:block;font-size:11px;color:var(--muted);font-weight:500}
+
+.bigopts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.bigopt{display:flex;flex-direction:column;align-items:flex-start;gap:10px;text-align:left;padding:20px;border-radius:22px;border:3px solid var(--line);background:#fff;transition:transform .25s cubic-bezier(.3,1.5,.5,1),border-color .2s,box-shadow .2s,background .2s;animation:chipIn .5s cubic-bezier(.3,1.5,.5,1) both;min-width:0}
+.bigopt:nth-child(2){animation-delay:.1s}.bigopt:nth-child(3){animation-delay:.2s}.bigopt:nth-child(4){animation-delay:.3s}
+.bigopt:hover:not(:disabled){transform:translateY(-5px);border-color:var(--c,var(--lilac));box-shadow:0 18px 30px -20px rgba(26,35,64,.45)}
+.bigopt i{width:56px;height:56px;border-radius:18px;display:grid;place-items:center;background:var(--bg2);font-style:normal;transition:.3s}
+.bigopt i svg{width:28px;height:28px}
+.bigopt b{font-family:var(--f-display);font-weight:600;font-size:20px;line-height:1.15}
+.bigopt small{color:var(--muted);font-size:14px}
+.bigopt.right{border-color:var(--cH);background:var(--cH-soft);animation:bounceIn .6s cubic-bezier(.3,1.8,.5,1)}
+.bigopt.right i{background:var(--cH);color:#fff}
+.bigopt.wrong{border-color:var(--red);background:var(--red-soft);animation:shake .45s}
+@keyframes bounceIn{0%{transform:scale(1)}40%{transform:scale(1.07)}100%{transform:scale(1)}}
+.fl-msg{margin-top:16px;min-height:0}
+.fl-msg .note{animation:chipIn .4s cubic-bezier(.3,1.5,.5,1) both;font-size:15px}
+
+/* Stage 3 single-question card */
+.xq-progress{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.xq-dots{display:flex;gap:5px;flex:1;min-width:0}
+.xq-dots button{flex:1;min-width:0;height:12px;border-radius:8px;background:var(--line);transition:background .4s,transform .3s}
+.xq-dots button.ok{background:var(--cH)}
+.xq-dots button.on{background:var(--c);transform:scaleY(1.45);animation:dotGlow 1.6s ease-in-out infinite}
+.xq-dots button.ok.on{background:var(--cH)}
+.xq-dots button:disabled{cursor:default}
+@keyframes dotGlow{50%{opacity:.6}}
+.xq-score{font-family:var(--f-display);font-weight:600;font-size:15px;padding:6px 14px;border-radius:999px;background:var(--cH-soft);color:var(--cH-d);white-space:nowrap}
+.xq-score.bump{animation:bump .5s cubic-bezier(.3,1.8,.5,1)}
+@keyframes bump{40%{transform:scale(1.25)}}
+.xq-look{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;padding:7px 13px;border-radius:999px;background:var(--bg2);color:var(--ink);margin-top:12px;transition:.2s}
+.xq-look:hover{background:var(--c);color:#fff}
+.xq-look svg{width:16px;height:16px}
+.qbig .qopts2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.qbig .qo{padding:16px 18px;font-size:17px;border-width:3px;border-radius:18px;animation:chipIn .45s cubic-bezier(.3,1.5,.5,1) both;gap:12px}
+.qbig .qo:nth-child(2){animation-delay:.08s}.qbig .qo:nth-child(3){animation-delay:.16s}.qbig .qo:nth-child(4){animation-delay:.24s}.qbig .qo:nth-child(n+5){animation-delay:.32s}
+.qbig .qo:hover:not(:disabled){transform:translateY(-3px);border-color:var(--c)}
+.qbig .qo i{width:22px;height:22px;border-radius:7px}
+.qbig .qo small{font-size:13.5px}
+.qbig .qo.right{animation:bounceIn .6s cubic-bezier(.3,1.8,.5,1)}
+.qbig .qo:disabled{cursor:default}
+.qbig .qo:disabled:not(.right){opacity:.55}
+.flash-card{animation:flashCard 1.4s ease}
+@keyframes flashCard{0%,100%{box-shadow:var(--shadow)}30%,70%{box-shadow:0 0 0 6px var(--sun),var(--shadow)}}
+.finale{text-align:center;padding:10px 0}
+.finale .trophy{width:96px;height:96px;border-radius:30px;margin:0 auto 14px;display:grid;place-items:center;background:var(--sun);color:#fff;box-shadow:0 14px 30px -12px var(--sun-d);animation:letterIn .8s cubic-bezier(.3,1.7,.5,1) both,floaty 3s ease-in-out .8s infinite}
+.finale .trophy svg{width:48px;height:48px}
+.finale h2{font-size:clamp(26px,3vw,36px)}
+.finale p{color:var(--muted);font-size:16px;max-width:560px;margin:8px auto 18px}
+.star-pop{position:fixed;z-index:400;pointer-events:none;font-family:var(--f-display);font-weight:700;font-size:22px;color:var(--cH-d);animation:starUp 1s ease-out forwards}
+@keyframes starUp{from{opacity:1;transform:translate(-50%,0) scale(.6)}to{opacity:0;transform:translate(-50%,-70px) scale(1.2)}}
+
+/* more life across the dashboard */
+.stage .card,.stage .stage-foot{animation:cardIn .55s cubic-bezier(.2,1,.3,1) both}
+.stage .grid2>*:nth-child(2),.stage .stack>.card:nth-child(2){animation-delay:.08s}
+.stage .grid2 .stack:nth-child(2)>.card:nth-child(2){animation-delay:.16s}
+@keyframes cardIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.card{transition:transform .25s ease,box-shadow .25s ease}
+.card:hover{box-shadow:0 1px 0 rgba(26,35,64,.04),0 20px 40px -22px rgba(26,35,64,.38)}
+.page-head h1 .badge{animation:chipIn .5s cubic-bezier(.3,1.5,.5,1) .15s both}
+.stage-foot:not(.wait) .btn{animation:nudge 1.8s ease-in-out infinite}
+.stage-foot:not(.wait)::before{content:'';position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.25) 50%,transparent 70%);background-size:250% 100%;animation:shine 2.8s linear infinite;pointer-events:none}
+.btn:active:not(:disabled){transform:scale(.96)}
+@media (max-width:760px){
+  .qbig{padding:24px 18px 20px;border-radius:24px}
+  .qbig-top{gap:12px}
+  .qbig-letter{width:56px;height:56px;font-size:28px;border-radius:17px}
+  .qbig textarea{font-size:17px}
+  .fl-node .d{width:36px;height:36px;font-size:15px}
+  .fl-node small{display:none}
+  .fl-line{margin-bottom:0}
+  .ps-recap{grid-template-columns:1fr 1fr}
+  .bigopts{grid-template-columns:1fr}
+  .bigopt{flex-direction:row;align-items:center}
+  .ps-reveal{padding:18px}
+}
 </style>
 </head>
 <body>
@@ -883,12 +1021,8 @@ details.clues li b{display:block;font-weight:600}
   <main class="d-main">
     <!-- STAGE 1 -->
     <section class="stage" id="st1">
-      <div class="page-head"><div><div class="kick">Stage 1 of 6</div><h1>Problem scoping <span class="badge lilac"><span data-ic="target"></span>4Ws canvas</span></h1><p>Before any AI is built, a team agrees on the problem. Answer the four Ws. Tap a suggestion to start, then make it your own.</p></div></div>
-      <div class="ws" id="wsGrid"></div>
-      <div class="grid2" style="margin-top:20px">
-        <div class="card"><h3><span class="h-ic" style="background:var(--lag-soft);color:var(--lag-d)" data-ic="doc"></span>Your problem statement</h3><p class="sub">Built from your 4Ws, in the standard template.</p><div class="ps-box" id="psBox" style="margin-top:14px"></div></div>
-        <div class="card"><h3><span class="h-ic" style="background:var(--lilac-soft);color:var(--lilac-d)" data-ic="spark"></span>Which AI domain fits?</h3><p class="sub">Our AI will look at photos of leaves. Which domain of AI is that?</p><div class="quiz" id="domQuiz"></div><div id="domMsg" style="margin-top:10px"></div></div>
-      </div>
+      <div class="page-head"><div><div class="kick">Stage 1 of 6</div><h1>Problem scoping <span class="badge lilac"><span data-ic="target"></span>4Ws canvas</span></h1><p>Before any AI is built, a team agrees on the problem. Answer the four Ws one at a time. Then read your problem statement and choose the type of AI.</p></div></div>
+      <div class="flow" id="scopeFlow"></div>
       <div class="stage-foot" id="foot1"></div>
     </section>
 
@@ -936,15 +1070,15 @@ details.clues li b{display:block;font-weight:600}
       <div class="page-head"><div><div class="kick">Stage 3 of 6</div><h1>Data exploration <span class="badge sun"><span data-ic="chart"></span>Find the pattern</span></h1><p>A computer cannot see "a sick leaf". It only sees thousands of tiny coloured dots called <b>pixels</b>. LeafLens sorts every pixel on the leaf into green, yellow or brown. Explore the charts below, then answer the questions to find the pattern your AI will use.</p></div></div>
       <div class="grid2">
         <div class="stack">
-          <div class="card"><h3><span class="h-ic" style="background:var(--sun-soft);color:var(--sun-d)" data-ic="chart"></span>Colour bars: the average leaf in each class</h3><p class="sub">Each bar shows how much of a leaf is green, yellow and brown. We added up all the photos in a class and found the average.</p><div class="avgbars" id="avgBars"></div><div class="legend"><span style="--c:var(--cH)">Green part</span><span style="--c:var(--cY)">Yellow part</span><span style="--c:var(--cS)">Brown part</span></div></div>
+          <div class="card" id="cardBars"><h3><span class="h-ic" style="background:var(--sun-soft);color:var(--sun-d)" data-ic="chart"></span>Colour bars: the average leaf in each class</h3><p class="sub">Each bar shows how much of a leaf is green, yellow and brown. We added up all the photos in a class and found the average.</p><div class="avgbars" id="avgBars"></div><div class="legend"><span style="--c:var(--cH)">Green part</span><span style="--c:var(--cY)">Yellow part</span><span style="--c:var(--cS)">Brown part</span></div></div>
           <div class="card"><h3><span class="h-ic" style="background:var(--lag-soft);color:var(--lag-d)" data-ic="eye"></span>See what the computer sees</h3><p class="sub">Tap any photo. On the right, every pixel of the leaf is painted green, yellow or brown, the way the computer sorted it. Grey is the background.</p><div class="picker" id="picker3"></div><div id="inspect3"></div></div>
         </div>
         <div class="stack">
-          <div class="card"><h3><span class="h-ic" style="background:var(--peach-soft);color:var(--peach-d)" data-ic="dots"></span>Dot chart: every photo is one dot</h3><p class="sub">The further <b>right</b> a dot is, the more yellow that leaf has. The <b>higher up</b> a dot is, the more brown it has. A dot in the bottom-left corner is mostly green. Tap a dot to see its photo.</p><div id="scatter3"></div><div class="legend" id="legend3"></div></div>
+          <div class="card" id="cardDots"><h3><span class="h-ic" style="background:var(--peach-soft);color:var(--peach-d)" data-ic="dots"></span>Dot chart: every photo is one dot</h3><p class="sub">The further <b>right</b> a dot is, the more yellow that leaf has. The <b>higher up</b> a dot is, the more brown it has. A dot in the bottom-left corner is mostly green. Tap a dot to see its photo.</p><div id="scatter3"></div><div class="legend" id="legend3"></div></div>
           <div class="card"><h3><span class="h-ic" style="background:var(--lilac-soft);color:var(--lilac-d)" data-ic="spark"></span>Why does this matter?</h3><p class="sub" style="font-size:14.5px">If each class has its own colours, a model can learn to tell them apart. Finding these patterns in the data is called <b>exploring the data</b>. The colours you find here become the clues for your models in Stage 4.</p></div>
         </div>
       </div>
-      <div class="card" style="margin-top:20px"><h3><span class="h-ic" style="background:var(--lilac-soft);color:var(--lilac-d)" data-ic="help"></span>What did you find? <span class="badge lilac" id="expCount" style="margin-left:auto">0 right</span></h3><p class="sub">Use the colour bars and the dot chart above to answer. You can try again if you get one wrong. Answer all of them correctly to unlock Modelling.</p><div class="qgrid" id="expQuiz"></div></div>
+      <div class="card" id="expCard" style="margin-top:20px"><h3><span class="h-ic" style="background:var(--lilac-soft);color:var(--lilac-d)" data-ic="help"></span>What did you find? <span class="badge lilac" id="expCount" style="margin-left:auto">0 right</span></h3><p class="sub">10 questions, one at a time. Use the colour bars and the dot chart above to answer. You can try again if you get one wrong. Answer all 10 correctly to unlock Modelling.</p><div id="expQuiz" style="margin-top:16px"></div></div>
       <div class="stage-foot" id="foot3"></div>
     </section>
 
@@ -1420,32 +1554,71 @@ function completeStage(i){const was=S.done[i];S.done[i]=true;save();if(!was&&i<5
 
 /* ===================== STAGE 1 · PROBLEM SCOPING ===================== */
 const WS=[
-  {k:'who',L:'W',t:'Who?',q:'Who has the problem? These are your stakeholders.',c:'var(--lilac)',ic:'user',sug:['Small farmers in our village','Our school garden club','Home gardeners and plant nursery owners']},
-  {k:'what',L:'W',t:'What?',q:'What is the problem, and how do you know it is a problem?',c:'var(--lag)',ic:'leaf',sug:['cannot spot leaf disease early, so crops are lost before anyone notices','do not know whether a yellow or spotted leaf means the plant is sick','need an expert to check leaves, and experts are far away']},
-  {k:'where',L:'W',t:'Where?',q:'Where or when does it happen? Describe the situation.',c:'var(--sun)',ic:'pin',sug:['during daily checks in the field','in the school garden after the rainy season','when plants are growing and pests spread fast']},
-  {k:'why',L:'W',t:'Why?',q:'Why does solving it matter? What is the benefit?',c:'var(--peach)',ic:'heart',sug:['catch disease early, save the crop and use less pesticide','know in seconds whether a plant needs care','save money and time without waiting for an expert']}
+  {k:'who',L:'W',t:'Who?',h:'Who has the problem?',q:'These are your stakeholders: the people your AI will help.',c:'var(--lilac)',cd:'var(--lilac-d)',ic:'user',sug:['Small farmers in our village','Our school garden club','Home gardeners and plant nursery owners']},
+  {k:'what',L:'W',t:'What?',h:'What is the problem?',q:'Say what goes wrong, and how you know it is a problem.',c:'var(--lag)',cd:'var(--lag-d)',ic:'leaf',sug:['cannot spot leaf disease early, so crops are lost before anyone notices','do not know whether a yellow or spotted leaf means the plant is sick','need an expert to check leaves, and experts are far away']},
+  {k:'where',L:'W',t:'Where?',h:'Where or when does it happen?',q:'Describe the place or the moment the problem shows up.',c:'var(--sun)',cd:'var(--sun-d)',ic:'pin',sug:['during daily checks in the field','in the school garden after the rainy season','when plants are growing and pests spread fast']},
+  {k:'why',L:'W',t:'Why?',h:'Why does solving it matter?',q:'What good thing happens if the problem is solved?',c:'var(--peach)',cd:'var(--peach-d)',ic:'heart',sug:['catch disease early, save the crop and use less pesticide','know in seconds whether a plant needs care','save money and time without waiting for an expert']}
 ];
+const DOMS=[{k:'cv',b:'Computer Vision',s:'AI that understands images and video',ic:'eye'},{k:'nlp',b:'Natural Language Processing',s:'AI that understands text and speech',ic:'text'},{k:'ds',b:'Data Science',s:'AI that finds patterns in tables of numbers',ic:'table'}];
+const FL1=[...WS.map(w=>({n:w.t.replace('?',''),c:w.c,L:w.L})),{n:'Statement',c:'var(--lag)',ic:'doc'},{n:'AI type',c:'var(--lilac)',ic:'spark'}];
+const wOK=k=>(S.scope[k]||'').trim().length>=6;
+/* furthest step the team may open: every W before it must be answered */
+function s1max(){let i=0;while(i<4&&wOK(WS[i].k))i++;if(i<4)return i;return S.scope.psSeen?5:4}
+let s1shown=null,s1dir=1;
 function r1(){
   const sc=S.scope;
-  if(!$('wsGrid').dataset.built){
-    $('wsGrid').innerHTML=WS.map(w=>`<div class="wcard" id="w_${w.k}" style="--c:${w.c}"><span class="tick">${IC.check}</span><div class="top"><span class="big">${w.L}</span><div><h4>${w.t}</h4><small>${w.q}</small></div></div><textarea id="t_${w.k}" rows="2" maxlength="160" placeholder="Enter your answer"></textarea><div class="chips">${w.sug.map(s=>`<button class="chip" onclick="fillW('${w.k}',this.textContent)">${esc(s)}</button>`).join('')}</div></div>`).join('');
-    WS.forEach(w=>{const t=$('t_'+w.k);t.value=sc[w.k]||'';t.addEventListener('input',()=>{S.scope[w.k]=t.value;save();r1live()})});
-    $('wsGrid').dataset.built=1;
+  if(sc.psSeen==null)sc.psSeen=!!S.done[0];
+  if(!sc.psSeen&&!S.done[0])sc.dom=null;
+  if(sc.step==null)sc.step=s1max();
+  sc.step=Math.max(0,Math.min(sc.step,s1max()));
+  const st=sc.step,mx=s1max();
+  const okA=FL1.map((f,i)=>i<4?wOK(WS[i].k):i===4?!!sc.psSeen:sc.dom==='cv');
+  const rail=FL1.map((f,i)=>(i?`<div class="fl-line ${okA[i-1]?'ok':''}"><i></i></div>`:'')+
+    `<button class="fl-node ${okA[i]?'ok':''} ${i===st?'on':''}" style="--c:${f.c}" ${i>mx?'disabled':''} onclick="s1go(${i})" title="${f.n}"><span class="d">${okA[i]&&i!==st?IC.check:f.ic?IC[f.ic]:f.L}</span><small>${f.n}</small></button>`).join('');
+  let body='';
+  if(st<4){const w=WS[st];
+    body=`<div class="qbig" style="--c:${w.c};--cd:${w.cd}"><div class="deco"><span></span><span></span><span></span></div>
+      <div class="qbig-top"><span class="qbig-letter">${w.L}</span><div><div class="qbig-kick">Question ${st+1} of 4 · ${w.t}</div><h2>${w.h}</h2><p>${w.q}</p></div></div>
+      <textarea id="t_${w.k}" rows="3" maxlength="160" placeholder="Type your team's answer here"></textarea>
+      <div class="qbig-hint">${IC.spark}Need an idea? Tap one, then make it your own.</div>
+      <div class="chips">${w.sug.map(s=>`<button class="chip" onclick="fillW('${w.k}',this.textContent)">${esc(s)}</button>`).join('')}</div>
+      <div class="qbig-nav">${st?`<button class="btn btn-ghost" onclick="s1go(${st-1})"><span class="back">${IC.arrow}</span>Back</button>`:'<span></span>'}<span class="count" id="s1count"></span><button class="btn btn-lag btn-lg go" id="s1next" onclick="s1next()">${st<3?'Next question':'See our problem statement'}${IC.arrow}</button></div></div>`;
+  }else if(st===4){
+    const seg=(t,d)=>`<span class="seg" style="animation-delay:${d}s">${t}</span>`;
+    const mk=(k,i)=>`<mark style="--mc:color-mix(in srgb,${WS[i].c} 35%,#fff)">${esc(sc[k].trim())}</mark>`;
+    body=`<div class="qbig" style="--c:var(--lag);--cd:var(--lag-d)"><div class="deco"><span></span><span></span><span></span></div>
+      <div class="qbig-top"><span class="qbig-letter">${IC.doc}</span><div><div class="qbig-kick">Your 4Ws are done</div><h2>Here is your problem statement</h2><p>Built from your four answers, in the standard template. Read it out loud as a team.</p></div></div>
+      <div class="ps-reveal">${seg('Our '+mk('who',0)+' have a problem: ',.2)}${seg('they '+mk('what',1)+', ',.9)}${seg(mk('where',2)+'. ',1.6)}${seg('An ideal solution would help them '+mk('why',3)+'.',2.3)}</div>
+      <div class="ps-recap">${WS.map((w,i)=>`<button style="--c:${w.c};animation-delay:${2.6+i*.08}s" onclick="s1go(${i})" title="Change your ${w.t} answer"><b>${w.L}</b><span>${w.t}<small>Tap to change</small></span></button>`).join('')}</div>
+      <div class="qbig-nav"><button class="btn btn-ghost" onclick="s1go(3)"><span class="back">${IC.arrow}</span>Back</button><button class="btn btn-lag btn-lg go" onclick="s1seen()">Next: choose the AI type${IC.arrow}</button></div></div>`;
+  }else{
+    const d=sc.dom;
+    body=`<div class="qbig" style="--c:var(--lilac);--cd:var(--lilac-d)"><div class="deco"><span></span><span></span><span></span></div>
+      <div class="qbig-top"><span class="qbig-letter">${IC.spark}</span><div><div class="qbig-kick">Last step · AI type</div><h2>Which kind of AI fits our project?</h2><p>Our AI will look at photos of leaves. Which domain of AI is that?</p></div></div>
+      <div class="bigopts" id="domQuiz">${DOMS.map(o=>`<button class="bigopt ${d===o.k?(o.k==='cv'?'right':'wrong'):''}" style="--c:var(--lilac)" onclick="pickDom('${o.k}')"><i>${IC[o.ic]}</i><span><b>${o.b}</b><br><small>${o.s}</small></span></button>`).join('')}</div>
+      <div class="fl-msg" id="domMsg">${d==='cv'?`<div class="note ok">${IC.check}<span>Correct! Our AI looks at photos of leaves, so this is a <b>Computer Vision</b> project. Press the button below to finish Stage 1.</span></div>`:d?`<div class="note bad">${IC.info}<span>Not quite. Think about what the AI takes in: photos. Try again.</span></div>`:''}</div>
+      <div class="qbig-nav"><button class="btn btn-ghost" onclick="s1go(4)"><span class="back">${IC.arrow}</span>Problem statement</button></div></div>`;
   }
-  WS.forEach(w=>{const t=$('t_'+w.k);if(document.activeElement!==t)t.value=sc[w.k]||''});
-  const D=[{k:'cv',b:'Computer Vision',s:'AI that understands images and video',ic:'eye'},{k:'nlp',b:'Natural Language Processing',s:'AI that understands text and speech',ic:'text'},{k:'ds',b:'Data Science',s:'AI that finds patterns in tables of numbers',ic:'table'}];
-  $('domQuiz').innerHTML=D.map(d=>`<button class="qopt ${sc.dom===d.k?(d.k==='cv'?'right':'wrong'):''}" onclick="pickDom('${d.k}')"><i>${IC[d.ic]}</i><span><b>${d.b}</b><small>${d.s}</small></span></button>`).join('');
-  $('domMsg').innerHTML=sc.dom==='cv'?`<div class="note ok">${IC.check}<span>Correct. Our AI looks at photos of leaves, so it is a Computer Vision project.</span></div>`:sc.dom?`<div class="note bad">${IC.info}<span>Not quite. Think about what the AI takes in: photos. Try again.</span></div>`:'';
+  const fresh=s1shown!==st;
+  $('scopeFlow').innerHTML=`<div class="fl-rail">${rail}</div>${body}`;
+  const card=$('scopeFlow').querySelector('.qbig');if(fresh&&card)card.classList.add(s1dir<0?'in-l':'in-r');
+  s1shown=st;
+  if(st<4){const w=WS[st],t=$('t_'+w.k);t.value=sc[w.k]||'';
+    t.addEventListener('input',()=>{S.scope[w.k]=t.value;save();r1live()});
+    t.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();s1next()}});
+    if(fresh&&matchMedia('(hover:hover)').matches)setTimeout(()=>t.focus({preventScroll:true}),350);}
   r1live();
 }
-function fillW(k,v){S.scope[k]=v;$('t_'+k).value=v;save();r1live()}
-function pickDom(k){S.scope.dom=k;save();r1();if(k!=='cv'){const b=document.querySelectorAll('#domQuiz .qopt.wrong')[0];if(b){b.style.animation='none';b.offsetHeight;b.style.animation=''}}}
-const wOK=k=>(S.scope[k]||'').trim().length>=6;
+function s1go(i){if(i>s1max())return;s1dir=i>=S.scope.step?1:-1;S.scope.step=i;save();r1();const f=$('scopeFlow');if(f.getBoundingClientRect().top<70)f.scrollIntoView({behavior:'smooth',block:'start'})}
+function s1next(){const st=S.scope.step;if(st<4&&!wOK(WS[st].k)){const t=$('t_'+WS[st].k);if(t){t.focus();t.closest('.qbig').classList.remove('in-r','in-l');t.style.animation='none';t.offsetHeight;t.style.animation='shake .4s'}toast('Write a short answer first (at least a few words).','warn');return}s1go(st+1)}
+function s1seen(){if(!S.done[0])S.scope.dom=null;S.scope.psSeen=true;save();s1go(5)}
+function fillW(k,v){S.scope[k]=v;const t=$('t_'+k);if(t){t.value=v;t.style.animation='none';t.offsetHeight;t.style.animation='bounceIn .5s'}save();r1live()}
+function pickDom(k){const was=S.scope.dom;S.scope.dom=k;save();r1();if(k==='cv'&&was!=='cv'){burstConfetti(70);toast('Problem scoped! Now complete Stage 1.','ok')}}
 function r1live(){
-  WS.forEach(w=>$('w_'+w.k).classList.toggle('ok',wOK(w.k)));
-  const m=(k,ph)=>wOK(k)?`<mark>${esc(S.scope[k].trim())}</mark>`:`<mark class="e">${ph}</mark>`;
-  $('psBox').innerHTML=`Our ${m('who','stakeholders')} have a problem: they ${m('what','what the issue is')}, ${m('where','where or when it happens')}. An ideal solution would help them ${m('why','the benefit')}.`;
-  stageFoot(0,[['Who',wOK('who')],['What',wOK('what')],['Where',wOK('where')],['Why',wOK('why')],['AI domain',S.scope.dom==='cv']]);
+  const st=S.scope.step;
+  if(st<4){const ok=wOK(WS[st].k),n=(S.scope[WS[st].k]||'').trim().length;const b=$('s1next');if(b)b.classList.toggle('go',ok);
+    const c=$('s1count');if(c){c.className='count'+(ok?' ok':'');c.innerHTML=ok?'Great answer!':n?'Keep going…':''}}
+  stageFoot(0,[['Who',wOK('who')],['What',wOK('what')],['Where',wOK('where')],['Why',wOK('why')],['Problem statement',!!S.scope.psSeen],['AI domain',S.scope.dom==='cv']]);
 }
 
 /* ===================== CAMERA (shared by Stage 2 and Stage 6) ===================== */
@@ -1597,6 +1770,7 @@ function expQuestions(av){
   const clsOpts=idx.map(i=>({v:String(i),t:CLS[i].short,sw:CLS[i].c}));
   const posOpts=[{v:'up',t:'High up on the chart',s:'lots of brown'},{v:'right',t:'Far to the right',s:'lots of yellow'},{v:'corner',t:'Bottom-left corner',s:'mostly green'}];
   const Q=[
+    {id:'q0',look:'Think',t:'A computer looks at a photo of a leaf. What does it really see?',opts:[{v:'px',t:'Thousands of tiny coloured dots called pixels'},{v:'plant',t:'A plant, just like we do'},{v:'name',t:'The name of the leaf'}],ans:'px',why:()=>'Exactly. A computer only sees pixels, tiny dots of colour. So we count green, yellow and brown pixels to describe each leaf.'},
     {id:'q1',look:'Colour bars',t:'Look at all the colour bars. Which class has the MOST green colour in its leaves?',opts:clsOpts,ans:String(iG),why:a=>`Correct. ${N(+a)} leaves are ${Math.round(av[+a].g)}% green on average. Lots of green usually means a fresh leaf.`},
     {id:'q2',look:'Colour bars',t:'Which class has the MOST brown colour in its leaves?',opts:clsOpts,ans:String(iB),why:a=>`Yes! ${N(+a)} leaves are ${Math.round(av[+a].b)}% brown on average. Brown comes from spots, dead patches or dry leaves.`},
     {id:'q3',look:'Colour bars',t:'Which class has the MOST yellow colour in its leaves?',opts:clsOpts,ans:String(iY),why:a=>`Right. ${N(+a)} leaves are ${Math.round(av[+a].y)}% yellow on average.`}
@@ -1607,7 +1781,14 @@ function expQuestions(av){
   if(CLS.length>2)Q.push({id:'q7',look:'Colour bars',t:`Which class looks the MOST different from ${N(iG)} in colour?`,opts:clsOpts.filter(o=>+o.v!==iG),ans:String(far),why:a=>`Right. ${N(+a)} has the most different mix of green, yellow and brown, so it should be the easiest for the AI to tell apart from ${N(iG)}.`});
   Q.push({id:'q8',look:'Think',t:'Why should every class have about the same number of photos?',opts:[{v:'fair',t:'So the AI learns every class equally well'},{v:'neat',t:'So the gallery looks neat'},{v:'none',t:'It does not matter at all'}],ans:'fair',why:()=>'Right. If one class has many more photos, the AI starts guessing that class too often.'});
   Q.push({id:'q9',look:'Think',t:'One photo is very dark and the leaf is hard to see. What should you do with it?',opts:[{v:'redo',t:'Delete it and take it again in good light'},{v:'keep',t:'Keep it, the AI will fix it'},{v:'more',t:'Take more dark photos like it'}],ans:'redo',why:()=>'Yes. Bad photos teach the AI wrong things. Good data makes a good AI.'});
-  return Q;
+  const iL=idx.reduce((a,c)=>av[c].g<av[a].g?c:a,0);
+  const extra=[
+    {id:'q11',look:'Think',t:'Why do we put a plain white sheet behind the leaf?',opts:[{v:'only',t:'So the computer sees only the leaf\'s colours'},{v:'pretty',t:'So the photo looks pretty'},{v:'dry',t:'So the leaf stays dry'}],ans:'only',why:()=>'Right. A messy background adds colours that are not the leaf, and that confuses the AI.'},
+    {id:'q12',look:'Think',t:'A new leaf has lots of brown on it. Which class would your AI most likely guess?',opts:clsOpts,ans:String(iB),why:a=>`Yes. ${N(+a)} leaves have the most brown, so a brown leaf looks most like them.`},
+    {id:'q13',look:'Colour bars',t:'Which class has the LEAST green colour in its leaves?',opts:clsOpts,ans:String(iL),why:a=>`Correct. ${N(+a)} leaves are only ${Math.round(av[+a].g)}% green on average.`}
+  ];
+  for(const e of extra){if(Q.length>=10)break;Q.push(e)}
+  return Q.slice(0,10);
 }
 function r3(){
   const av=classAvg();
@@ -1618,14 +1799,43 @@ function r3(){
   $('picker3').innerHTML=S.imgs.map(m=>`<button class="thumb ${selImg===m.id?'sel':''}" style="--c:${CLS[m.c].c}" onclick="inspect(${m.id})" title="${esc(CLS[m.c].short)}"><img src="${m.src}" alt="${esc(CLS[m.c].short)} leaf"></button>`).join('');
   if(selImg==null||!S.imgs.find(m=>m.id===selImg))selImg=(S.imgs.find(m=>m.c===2)||S.imgs[0]||{}).id;
   renderInspect();
-  const Q=expQuestions(av);const right=Q.filter(q=>S.exp[q.id]===q.ans).length;
-  $('expCount').textContent=right+' of '+Q.length+' right';
-  $('expQuiz').innerHTML=Q.map((q,n)=>{const a=S.exp[q.id];const ok=a===q.ans;return `<div class="qcard ${ok?'ok':a!=null?'bad':''}"><div class="qtop"><span class="qn">${n+1}</span><span class="qlook">${q.look==='Think'?IC.spark:q.look==='Dot chart'?IC.dots:IC.chart}${q.look==='Think'?'Think about it':'Look at the '+q.look.toLowerCase()}</span></div><p class="qt">${q.t}</p>
-    <div class="qopts">${q.opts.map(o=>`<button class="qo ${a===o.v?(ok?'right':'wrong'):''}" onclick="answer('${q.id}','${o.v}')">${o.sw?`<i style="background:${o.sw}"></i>`:''}<span>${esc(o.t)}${o.s?`<small>${o.s}</small>`:''}</span></button>`).join('')}</div>
-    ${ok?`<div class="note ok">${IC.check}<span>${q.why(a)}</span></div>`:a!=null?`<div class="note bad">${IC.info}<span>Not quite. ${q.look==='Think'?'Think about what helps the AI learn.':'Look at the '+q.look.toLowerCase()+' again and try another answer.'}</span></div>`:''}</div>`}).join('');
-  stageFoot(2,[['Answer all '+Q.length+' questions correctly ('+right+'/'+Q.length+')',right===Q.length]]);
+  renderExpQuiz(av);
 }
-function answer(q,k){S.exp[q]=k;save();const y=scrollY;r3();scrollTo(0,y)}
+let xqShown=null,xqDir=1;
+function expMax(Q){let i=0;while(i<Q.length&&S.exp[Q[i].id]===Q[i].ans)i++;return i}
+function renderExpQuiz(av){
+  const Q=expQuestions(av||classAvg());const right=Q.filter(q=>S.exp[q.id]===q.ans).length;const mx=expMax(Q);
+  if(S.expStep==null)S.expStep=mx;
+  S.expStep=Math.max(0,Math.min(S.expStep,mx));
+  const st=S.expStep;
+  $('expCount').textContent=right+' of '+Q.length+' right';
+  const col='var(--lilac)';
+  const dots=Q.map((q,n)=>`<button class="${S.exp[q.id]===q.ans?'ok':''} ${n===st?'on':''}" ${n>mx?'disabled':''} onclick="xqGo(${n})" title="Question ${n+1}" aria-label="Question ${n+1}"></button>`).join('');
+  let body;
+  if(st>=Q.length){
+    body=`<div class="qbig" style="--c:var(--sun);--cd:var(--sun-d)"><div class="deco"><span></span><span></span><span></span></div><div class="finale"><div class="trophy">${IC.trophy}</div><h2>You found the pattern!</h2><p>All ${Q.length} questions right. Your team now knows which colours tell your classes apart. These colours become the clues for your models in Stage 4.</p><button class="btn btn-ghost" onclick="xqGo(0)"><span class="back">${IC.arrow}</span>Look at the questions again</button></div></div>`;
+  }else{
+    const q=Q[st],a=S.exp[q.id],ok=a===q.ans;
+    const lookIc=q.look==='Think'?IC.spark:q.look==='Dot chart'?IC.dots:IC.chart;
+    body=`<div class="qbig" style="--c:${col};--cd:var(--lilac-d)"><div class="deco"><span></span><span></span><span></span></div>
+      <div class="qbig-top"><span class="qbig-letter">${st+1}</span><div><div class="qbig-kick">Question ${st+1} of ${Q.length}</div><h2 style="font-size:clamp(22px,2.6vw,30px)">${q.t}</h2>
+      ${q.look==='Think'?`<span class="xq-look" style="pointer-events:none">${lookIc}Think about it</span>`:`<button class="xq-look" onclick="xqLook('${q.look}')">${lookIc}Show me the ${q.look.toLowerCase()}</button>`}</div></div>
+      <div class="qopts2">${q.opts.map(o=>`<button class="qo ${a===o.v?(ok?'right':'wrong'):''}" ${ok?'disabled':''} onclick="answer('${q.id}','${o.v}')">${o.sw?`<i style="background:${o.sw}"></i>`:''}<span>${esc(o.t)}${o.s?`<small>${o.s}</small>`:''}</span></button>`).join('')}</div>
+      <div class="fl-msg">${ok?`<div class="note ok">${IC.check}<span>${q.why(a)}</span></div>`:a!=null?`<div class="note bad">${IC.info}<span>Not quite. ${q.look==='Think'?'Think about what helps the AI learn.':'Look at the '+q.look.toLowerCase()+' again and try another answer.'}</span></div>`:''}</div>
+      <div class="qbig-nav">${st?`<button class="btn btn-ghost" onclick="xqGo(${st-1})"><span class="back">${IC.arrow}</span>Back</button>`:'<span></span>'}${ok?`<button class="btn btn-lag btn-lg go" id="xqNext" onclick="xqGo(${st+1})">${st<Q.length-1?'Next question':'Finish'}${IC.arrow}</button>`:'<span class="count">Pick an answer</span>'}</div></div>`;
+  }
+  const fresh=xqShown!==st;
+  $('expQuiz').innerHTML=`<div class="xq-progress" style="--c:${col}"><div class="xq-dots">${dots}</div><span class="xq-score" id="xqScore">${right} / ${Q.length}</span></div>${body}`;
+  const card=$('expQuiz').querySelector('.qbig');if(fresh&&card)card.classList.add(xqDir<0?'in-l':'in-r');
+  xqShown=st;
+  stageFoot(2,[['Answer all '+Q.length+' questions correctly ('+right+'/'+Q.length+')',right===Q.length]]);
+  return {Q,right};
+}
+function xqGo(i){xqDir=i>=S.expStep?1:-1;S.expStep=i;save();const r=renderExpQuiz();if(i>=r.Q.length&&r.right===r.Q.length){burstConfetti(90)}const c=$('expCard');if(c.getBoundingClientRect().top<70||c.getBoundingClientRect().top>innerHeight*.6)c.scrollIntoView({behavior:'smooth',block:'start'})}
+function xqLook(kind){const el=$(kind==='Dot chart'?'cardDots':'cardBars');el.scrollIntoView({behavior:'smooth',block:'center'});el.classList.remove('flash-card');void el.offsetWidth;el.classList.add('flash-card')}
+function answer(q,k,ev){const prev=S.exp[q];S.exp[q]=k;save();const r=renderExpQuiz();const Qi=r.Q.find(x=>x.id===q);
+  if(Qi&&k===Qi.ans&&prev!==k){const sc=$('xqScore');sc.classList.add('bump');const b=$('expQuiz').querySelector('.qo.right');if(b&&!matchMedia('(prefers-reduced-motion: reduce)').matches){const rc=b.getBoundingClientRect();const s=document.createElement('div');s.className='star-pop';s.textContent='+1 ★';s.style.left=(rc.left+rc.width/2)+'px';s.style.top=(rc.top-8)+'px';document.body.appendChild(s);setTimeout(()=>s.remove(),1000)}
+    const n=$('xqNext');if(n)setTimeout(()=>n.focus({preventScroll:true}),300)}}
 function inspect(id){selImg=id;document.querySelectorAll('#scatter3 .pt').forEach(p=>p.classList.remove('sel'));r3()}
 function renderInspect(){
   const m=S.imgs.find(x=>x.id===selImg);if(!m){$('inspect3').innerHTML='<div class="empty">No photos yet.</div>';return}
